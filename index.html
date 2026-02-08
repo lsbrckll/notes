@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labours of Love - A Journal by L.R.C. Brickell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --old-paper: #f4e8d0;
+            --ink: #2d2520;
+            --faded-ink: #6b5d47;
+            --margin-ink: #8b7355;
+            --highlight: rgba(255, 235, 180, 0.4);
+            --highlight-border: rgba(212, 180, 100, 0.3);
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: linear-gradient(to bottom, #f0e5ca, #f4e8d0);
+            color: var(--ink);
+            line-height: 1.8;
+            font-size: 17px;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 30px 100px;
+            display: grid;
+            grid-template-columns: 280px 1fr 340px;
+            gap: 60px;
+            position: relative;
+        }
+
+        /* Left about column */
+        .left-column {
+            align-self: start;
+        }
+
+        /* Main content */
+        .main-content {
+            max-width: 650px;
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 70px;
+            padding-bottom: 35px;
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .site-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .site-subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            color: var(--ink);
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+            font-style: italic;
+        }
+
+        .author-name {
+            font-family: 'Crimson Text', serif;
+            font-size: 0.95rem;
+            color: var(--faded-ink);
+            letter-spacing: 0.3px;
+        }
+
+        /* About section styling */
+        .about-section {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 28px;
+            border-radius: 3px;
+            border: 1px solid rgba(107, 93, 71, 0.2);
+            margin-bottom: 30px;
+        }
+
+        /* Contact section styling */
+        .contact-section {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 28px;
+            border-radius: 3px;
+            border: 1px solid rgba(107, 93, 71, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .contact-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .contact-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--faded-ink);
+        }
+
+        .contact-email {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--margin-ink);
+            transition: border-color 0.2s;
+        }
+
+        .contact-email:hover {
+            border-bottom-color: var(--ink);
+        }
+
+        /* Newsletter coming soon section */
+        .newsletter-section {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 28px;
+            border-radius: 3px;
+            border: 1px solid rgba(107, 93, 71, 0.2);
+        }
+
+        .about-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .about-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--faded-ink);
+        }
+
+        .about-text p {
+            margin-bottom: 14px;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Entries */
+        .entry {
+            margin-bottom: 100px;
+            position: relative;
+            scroll-margin-top: 60px;
+        }
+
+        .entry-meta {
+            font-family: 'Crimson Text', serif;
+            font-size: 0.85rem;
+            color: var(--faded-ink);
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .entry-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.7rem;
+            font-weight: 400;
+            margin-bottom: 28px;
+            line-height: 1.4;
+            letter-spacing: 0.3px;
+        }
+
+        .entry-body {
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .entry-body p {
+            margin-bottom: 1.6em;
+        }
+
+        /* Improved highlighting - more obvious */
+        .annotated {
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                transparent 15%, 
+                rgba(255, 235, 180, 0.6) 15%, 
+                rgba(255, 235, 180, 0.6) 90%, 
+                transparent 90%
+            );
+            padding: 0 4px;
+            position: relative;
+            border-bottom: 2px solid rgba(255, 200, 100, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .annotated:hover {
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                transparent 15%, 
+                rgba(255, 235, 180, 0.8) 15%, 
+                rgba(255, 235, 180, 0.8) 90%, 
+                transparent 90%
+            );
+            border-bottom-color: rgba(255, 200, 100, 0.8);
+        }
+
+        /* Marginalia */
+        .margin-note {
+            font-family: 'Crimson Text', serif;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--faded-ink);
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            position: absolute;
+            right: -400px;
+            width: 320px;
+        }
+
+        .margin-note-label {
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            font-family: 'Libre Baskerville', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .margin-note a {
+            color: var(--margin-ink);
+            text-decoration: underline;
+        }
+
+        /* Container for marginalia in right column */
+        .marginalia-column {
+            position: relative;
+        }
+
+        /* Blockquotes for quoted text */
+        blockquote {
+            margin: 2em 0;
+            padding: 0 0 0 24px;
+            border-left: 3px solid var(--margin-ink);
+            color: var(--faded-ink);
+            font-style: italic;
+            position: relative;
+        }
+
+        blockquote p {
+            margin-bottom: 1em;
+        }
+
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        blockquote::before {
+            content: '"';
+            font-family: 'Libre Baskerville', serif;
+            font-size: 3rem;
+            color: rgba(212, 197, 160, 0.4);
+            position: absolute;
+            left: -12px;
+            top: -10px;
+            line-height: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .entry {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .page {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .left-column {
+                position: static;
+                margin-bottom: 40px;
+            }
+
+            .margin-note {
+                position: static;
+                width: 100%;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .page {
+                padding: 50px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- Left column: About -->
+        <aside class="left-column">
+            <div class="about-section">
+                <h3 class="about-title">About</h3>
+                <div class="about-text">
+                    <p>The journal of a 17-year-old student, with three aims:</p>
+                    <p>(1) To learn as much as he can about what it means to be human.</p>
+                    <p>(2) To learn as much as he can about himself, and his life, in how he thinks about questions. Think of these entries as little "essays"—originally a "test" (in French) of how we respond to a subject.</p>
+                    <p>(3) To offer something useful and interesting to fellow travellers, eager to explore our existence.</p>
+                    <p>Now more than ever, thinking is becoming a rare thing. If you wonder about things and want to learn, you're welcome here.</p>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h3 class="contact-title">Contact</h3>
+                <div class="contact-text">
+                    <p>Questions, thoughts, or just want to say hello?</p>
+                    <p><a href="mailto:laboursofloveblog@gmail.com" class="contact-email">laboursofloveblog@gmail.com</a></p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <header>
+                <h1 class="site-title">Labours of Love</h1>
+                <div class="site-subtitle">A Journal by L.R.C. Brickell</div>
+            </header>
+
+            <article class="entry" data-date="2026-02-08" id="entry-1">
+                <div class="entry-meta">8 February 2026</div>
+                <h2 class="entry-title">On the performance of being</h2>
+                <div class="entry-body">
+                    <p>
+                        Consider the strange recursion at the heart of <span class="annotated" data-margin="margin-1">authenticity</span>. The moment one becomes conscious of being authentic, one is already performing authenticity—and thus the very object of pursuit recedes. This morning I observed myself editing not my reaction to an event, but the anticipated retelling of that reaction. Does this secondary processing corrupt the primary experience, or reveal that all experience is always already mediated by narrative?
+                    </p>
+                    <p>
+                        Perhaps there is no pre-narrative self to access. Perhaps the search for authenticity is itself the performance, a recursive loop that generates the very thing it seeks to escape. The <span class="annotated" data-margin="margin-2">authentic self as a horizon</span> that retreats with each step toward it.
+                    </p>
+                </div>
+                <div class="margin-note" id="margin-1">
+                    <div class="margin-note-label">authenticity:</div>
+                    The observer effect in consciousness—can we think about thinking without changing the thought? cf. Heisenberg, but for the mind
+                </div>
+                <div class="margin-note" id="margin-2">
+                    <div class="margin-note-label">horizon:</div>
+                    Always receding, never reached—like Zeno's paradox of motion
+                </div>
+            </article>
+
+            <article class="entry" data-date="2026-02-05" id="entry-2">
+                <div class="entry-meta">5 February 2026</div>
+                <h2 class="entry-title">The narrative cage</h2>
+                <div class="entry-body">
+                    <p>
+                        Watched someone I have known for years behave exactly as I predicted they would. The accurate prediction should have validated my understanding, yet it produced only unease. Why? Because I realized I had long ago stopped seeing them—I was merely consulting my <span class="annotated" data-margin="margin-3">compressed file</span> on them, a narrative summary that substituted for observation.
+                    </p>
+                    <p>
+                        We trap people in our stories about them. This might be necessary; holding the full complexity of another consciousness in mind may be cognitively impossible. But that doesn't make it less violent. Intimacy as necessary reduction. Understanding as a form of flattening. We mistake our maps for territories and call it knowledge.
+                    </p>
+                </div>
+                <div class="margin-note" id="margin-3">
+                    <div class="margin-note-label">compressed file:</div>
+                    Is memory a recording or a reconstruction? See <a href="#entry-3">31 Jan entry</a> on ambiguity
+                </div>
+            </article>
+
+            <article class="entry" data-date="2026-01-31" id="entry-3">
+                <div class="entry-meta">31 January 2026</div>
+                <h2 class="entry-title">The question as dwelling</h2>
+                <div class="entry-body">
+                    <p>
+                        Some questions do not want answers. They want to be inhabited, lived with, returned to. I once thought this was intellectual cowardice—that every question deserved resolution. Now I suspect the opposite: that demanding resolution of fundamentally <span class="annotated" data-margin="margin-4">ambiguous questions</span> is where meaning dies.
+                    </p>
+                    <p>
+                        Human experience may be structurally ambiguous. The question mark not as placeholder awaiting replacement by a period, but as the architecture of the thing itself. Consider: "What is the meaning of life?" versus "How shall I live meaningfully with uncertainty?" The first demands an answer that will end inquiry. The second invites a practice that sustains it.
+                    </p>
+                </div>
+                <div class="margin-note" id="margin-4">
+                    <div class="margin-note-label">ambiguous questions:</div>
+                    Contrast with Descartes' method of doubt—he wanted certainty, not dwelling
+                </div>
+            </article>
+
+            <article class="entry" data-date="2026-01-28" id="entry-4">
+                <div class="entry-meta">28 January 2026</div>
+                <h2 class="entry-title">Conversational topology</h2>
+                <div class="entry-body">
+                    <p>
+                        Every dialogue is a negotiation over attention's finite resource. The interruption, the redirect, the "that reminds me"—each a bid in an <span class="annotated" data-margin="margin-5">economy of relevance</span>. What fascinates is how rarely we acknowledge the negotiation. We pretend the conversation follows organic interest while it actually traces the collision of competing claims to conversational space.
+                    </p>
+                    <p>
+                        This is not malice. It is geometry. Two minds, one linear thread. The friction is structural. Yet we take it personally, as if the redirect were rejection rather than the inevitable cost of sharing attention. Perhaps all communication is controlled collision, and what we call understanding is finding a rhythm in the chaos.
+                    </p>
+                </div>
+                <div class="margin-note" id="margin-5">
+                    <div class="margin-note-label">economy of relevance:</div>
+                    This applies to written exchanges too. What am I not saying here?
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        // Position margin notes alongside their highlighted text
+        function positionMarginNotes() {
+            if (window.innerWidth <= 1100) return;
+            
+            const annotated = document.querySelectorAll('.annotated');
+            
+            annotated.forEach(span => {
+                const marginId = span.dataset.margin;
+                const marginNote = document.getElementById(marginId);
+                
+                if (marginNote) {
+                    const spanRect = span.getBoundingClientRect();
+                    const entry = span.closest('.entry');
+                    const entryRect = entry.getBoundingClientRect();
+                    
+                    const relativeTop = spanRect.top - entryRect.top;
+                    marginNote.style.top = `${relativeTop - 5}px`;
+                }
+            });
+        }
+
+        // Initialize
+        window.addEventListener('load', positionMarginNotes);
+        window.addEventListener('resize', positionMarginNotes);
+        window.addEventListener('scroll', positionMarginNotes);
+    </script>
+</body>
+</html>
