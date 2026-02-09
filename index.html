@@ -186,42 +186,6 @@
             margin-bottom: 0;
         }
 
-        /* ── Sidebar index ── */
-        .sidebar-index {
-            margin-top: 28px;
-        }
-
-        .index-item {
-            display: block;
-            font-family: 'Crimson Text', serif;
-            font-size: 0.88rem;
-            color: var(--faded-ink);
-            text-decoration: none;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--rule);
-            transition: color 0.2s;
-            line-height: 1.45;
-        }
-
-        .index-item:first-child {
-            border-top: 1px solid var(--rule);
-        }
-
-        .index-item:hover {
-            color: var(--ink);
-        }
-
-        .index-item .index-num {
-            font-weight: 600;
-            color: var(--margin-ink);
-            margin-right: 6px;
-            font-size: 0.82rem;
-        }
-
-        .index-item.active {
-            color: var(--ink);
-        }
-
         /* ── Right column ── */
         .right-column {
             position: relative;
@@ -254,12 +218,6 @@
             color: var(--ink);
             line-height: 1.45;
             margin-bottom: 8px;
-        }
-
-        .reading-indicator-meta {
-            font-size: 0.78rem;
-            color: var(--margin-ink);
-            font-style: italic;
         }
 
         .reading-indicator-progress {
@@ -793,12 +751,6 @@
                     <p>If you wonder about things and want to learn, you are welcome here.</p>
                 </div>
             </div>
-            <nav class="sidebar-index" id="sidebarIndex">
-                <a href="#entry-1" class="index-item"><span class="index-num">#4</span> On the performance of being</a>
-                <a href="#entry-2" class="index-item"><span class="index-num">#3</span> The narrative cage</a>
-                <a href="#entry-3" class="index-item"><span class="index-num">#2</span> The question as dwelling</a>
-                <a href="#entry-4" class="index-item"><span class="index-num">#1</span> Conversational topology</a>
-            </nav>
         </aside>
 
         <!-- Main content -->
@@ -1099,7 +1051,6 @@
             const indicator = document.getElementById('readingIndicator');
             const indicatorTitle = document.getElementById('indicatorTitle');
             const indicatorBar = document.getElementById('indicatorBar');
-            const indexItems = document.querySelectorAll('.index-item');
 
             let currentEntry = null;
             let entryProgress = 0;
@@ -1107,7 +1058,6 @@
             entries.forEach((entry, i) => {
                 const rect = entry.getBoundingClientRect();
                 const vh = window.innerHeight;
-                // Entry is "current" if its top is above the middle of the viewport
                 if (rect.top < vh * 0.4 && rect.bottom > 0) {
                     currentEntry = entry;
                     const totalHeight = rect.height;
@@ -1121,15 +1071,8 @@
                 const title = currentEntry.querySelector('.entry-title');
                 indicatorTitle.textContent = title ? title.textContent : '';
                 indicatorBar.style.width = `${entryProgress}%`;
-
-                // Update sidebar index active state
-                indexItems.forEach(item => {
-                    item.classList.toggle('active',
-                        item.getAttribute('href') === `#${currentEntry.id}`);
-                });
             } else {
                 indicator.classList.remove('visible');
-                indexItems.forEach(item => item.classList.remove('active'));
             }
         }
 
