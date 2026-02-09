@@ -942,9 +942,20 @@
                 popup.classList.add('below');
             }
 
-            // Trigger show
+            // Trigger show and clamp to viewport edges
             requestAnimationFrame(() => {
                 popup.classList.add('show');
+
+                // Prevent popup from overflowing left/right edges
+                const popupRect = popup.getBoundingClientRect();
+                const pad = 12;
+                if (popupRect.left < pad) {
+                    const shift = pad - popupRect.left;
+                    popup.style.left = `calc(50% + ${shift}px)`;
+                } else if (popupRect.right > window.innerWidth - pad) {
+                    const shift = popupRect.right - (window.innerWidth - pad);
+                    popup.style.left = `calc(50% - ${shift}px)`;
+                }
             });
 
             activePopup = popup;
@@ -1094,9 +1105,11 @@
         // ── Visitor count ──
         function loadVisitorCount() {
             const el = document.getElementById('visitorCount');
+            // Use the actual page path so it matches what GoatCounter recorded
+            const path = location.pathname.replace(/\/$/, '') || '/';
             try {
                 const r = new XMLHttpRequest();
-                r.open('GET', 'https://laboursoflove.goatcounter.com/counter/' + encodeURIComponent('/') + '.json');
+                r.open('GET', 'https://laboursoflove.goatcounter.com/counter/' + encodeURIComponent(path) + '.json');
                 r.onload = function() {
                     if (r.status === 200) {
                         const data = JSON.parse(r.responseText);
@@ -1105,6 +1118,7 @@
                         el.classList.add('loaded');
                     }
                 };
+                r.onerror = function() { /* fail silently */ };
                 r.send();
             } catch(e) { /* fail silently */ }
         }
