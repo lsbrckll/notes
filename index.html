@@ -960,11 +960,14 @@
 
             activePopup = popup;
 
-            // Auto-dismiss after 5 seconds on mobile
+            // Auto-dismiss after 4 seconds on mobile
             if (popupTimer) clearTimeout(popupTimer);
             popupTimer = setTimeout(() => {
                 if (activePopup === popup) closeActivePopup();
-            }, 5000);
+            }, 4000);
+
+            // Tapping the popup itself closes it on mobile
+            popup.addEventListener('click', () => closeActivePopup());
         }
 
         // ── Margin note hover (desktop) ──
@@ -1006,11 +1009,11 @@
                 });
             });
 
-            // Close popup when clicking elsewhere
+            // Close popup when clicking elsewhere (on mobile, tapping popup also closes it)
             document.addEventListener('click', (e) => {
-                if (activePopup && !e.target.closest('.note-popup') && !e.target.closest('.annotated')) {
-                    closeActivePopup();
-                }
+                if (!activePopup) return;
+                if (e.target.closest('.annotated')) return; // let the span handler deal with it
+                closeActivePopup();
             });
         }
 
