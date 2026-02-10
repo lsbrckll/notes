@@ -1099,12 +1099,14 @@
                         append: false,
                         type: 'json',
                         no_branding: true,
+                        path: 'all',
                         cb: function(data) {
                             try {
                                 var count = data.count || '0';
                                 count = count.replace(/\s/g, '');
-                                if (parseInt(count) > 0) {
-                                    el.textContent = count + ' readers have visited this journal';
+                                var n = parseInt(count);
+                                if (n >= 0) {
+                                    el.textContent = (n === 0 ? 'Welcome, first reader' : count + ' readers have visited this journal');
                                     el.classList.add('loaded');
                                 }
                             } catch(e) { /* fail silently */ }
