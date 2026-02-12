@@ -82,7 +82,7 @@
         .page {
             max-width: 1360px;
             margin: 0 auto;
-            padding: 80px 40px 120px;
+            padding: 45px 40px 120px;
             display: grid;
             grid-template-columns: 260px 1fr 320px;
             gap: 70px;
@@ -93,7 +93,7 @@
         .left-column {
             align-self: start;
             position: sticky;
-            top: 80px;
+            top: 40px;
         }
 
         .sidebar-card {
@@ -841,7 +841,7 @@
             <div class="sidebar-card subscribe-card">
                 <h3 class="sidebar-title">Subscribe</h3>
                 <div class="sidebar-text"><p>Receive new entries by email.</p></div>
-                <form action="https://script.google.com/macros/s/AKfycbxJvo5KRws3AwMVlBmfd1wQeC0OzbFF1ajCmAXyg0bhyBdsiy8uW1-N03ONG1X6H0TpbQ/exec" method="POST" class="subscribe-form">
+                <form action="https://script.google.com/macros/s/AKfycbxys2VXQn-OXvE4YMcAdpMfPL3hd1VUKmz6KddfXzQ4AHa_VElxuPURkKWwaZ9wYqEc/exec" method="POST" class="subscribe-form">
                     <input type="email" name="Email" placeholder="your@email.com"
                            required class="subscribe-input" aria-label="Email address">
                     <button type="submit" class="subscribe-button">Subscribe</button>
@@ -868,7 +868,7 @@
                         </div>
                     </div>
                     <div class="mobile-subscribe">
-                        <form action="https://script.google.com/macros/s/AKfycbxJvo5KRws3AwMVlBmfd1wQeC0OzbFF1ajCmAXyg0bhyBdsiy8uW1-N03ONG1X6H0TpbQ/exec" method="POST" class="subscribe-form">
+                        <form action="https://script.google.com/macros/s/AKfycbxys2VXQn-OXvE4YMcAdpMfPL3hd1VUKmz6KddfXzQ4AHa_VElxuPURkKWwaZ9wYqEc/exec" method="POST" class="subscribe-form">
                             <div class="mobile-subscribe-row">
                                 <input type="email" name="Email" placeholder="your@email.com"
                                        required class="subscribe-input" aria-label="Email address">
@@ -1208,25 +1208,21 @@
                     button.textContent = '...';
                     status.textContent = '';
                     status.className = 'subscribe-status';
-                    fetch(form.action, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: 'Email=' + encodeURIComponent(input.value.trim())
-                    })
-                    .then(function() {
+                    // Use hidden iframe to handle Google's redirect
+                    var iframe = document.createElement('iframe');
+                    iframe.name = 'subscribe-frame';
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                    form.target = 'subscribe-frame';
+                    iframe.addEventListener('load', function() {
                         status.textContent = 'Thank you for subscribing.';
                         input.value = '';
-                    })
-                    .catch(function() {
-                        status.textContent = 'Something went wrong. Please try again.';
-                        status.className = 'subscribe-status error';
-                    })
-                    .finally(function() {
                         input.disabled = false;
                         button.disabled = false;
                         button.textContent = 'Subscribe';
+                        setTimeout(function() { iframe.remove(); }, 1000);
                     });
+                    form.submit();
                 });
             });
         }
